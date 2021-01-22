@@ -355,7 +355,7 @@ export default class DataSheet extends PureComponent {
     }
   }
 
-  getSelectedCells(data, start, end) {
+  getSelectedCells(data, start, end) { //for 剪下使用
     let selected = [];
     range(start.i, end.i).map(row => {
       range(start.j, end.j).map(col => {
@@ -367,7 +367,7 @@ export default class DataSheet extends PureComponent {
     return selected;
   }
 
-  clearSelectedCells(start, end) {
+  clearSelectedCells(start, end) {  //for 刪除、剪下使用
     const { data, onCellsChanged, onChange } = this.props;
     const cells = this.getSelectedCells(data, start, end)
       .filter(cell => !cell.cell.readOnly)
@@ -512,11 +512,14 @@ export default class DataSheet extends PureComponent {
       if (currentCell && currentCell.component && !currentCell.forceComponent) {
         e.preventDefault();
         let func = this.onRevert; // ESCAPE_KEY
-        if (keyCode === ENTER_KEY) {
-          func = () => this.handleNavigate(e, { i: offset, j: 0 });
-        } else if (keyCode === TAB_KEY) {
-          func = () => this.handleNavigate(e, { i: 0, j: offset }, true);
-        }
+        
+                  //Duke
+
+//         if (keyCode === ENTER_KEY) {
+//           func = () => this.handleNavigate(e, { i: offset, j: 0 });
+//         } else if (keyCode === TAB_KEY) {
+//           func = () => this.handleNavigate(e, { i: 0, j: offset }, true);
+//         }
         // setTimeout makes sure that component is done handling the event before we take over
         setTimeout(() => {
           func();
@@ -534,10 +537,13 @@ export default class DataSheet extends PureComponent {
   }
 
   onDoubleClick(i, j) {
-    let cell = this.props.data[i][j];
-    if (!cell.readOnly) {
-      this._setState({ editing: { i: i, j: j }, forceEdit: true, clear: {} });
-    }
+      //進入編輯模式 Duke
+      console.log(i,j)
+      // var cell = this.props.data[i][j];
+      // if (!cell.readOnly) {
+      //   this._setState({ editing: { i: i, j: j }, forceEdit: true, clear: {} });
+      // }
+
   }
 
   onMouseDown(i, j, e) {
@@ -573,9 +579,12 @@ export default class DataSheet extends PureComponent {
     document.addEventListener('mousedown', this.pageClick);
 
     // Cut, copy and paste event handlers
-    document.addEventListener('cut', this.handleCut);
-    document.addEventListener('copy', this.handleCopy);
-    document.addEventListener('paste', this.handlePaste);
+      // document.addEventListener('cut', this.handleCut);    //Duke作廢此層方法
+      //document.addEventListener('copy', handleCopy);    //Duke作廢此層方法
+      document.addEventListener('copy', this.props.onHandleCopy);    //Duke變更外層方法
+
+      // document.addEventListener('paste', this.handlePaste);  //Duke作廢此層方法
+
   }
 
   onMouseOver(i, j) {
@@ -648,6 +657,9 @@ export default class DataSheet extends PureComponent {
       overflow,
       data,
       keyFn,
+                onDoubleClick=_props6.onDoubleClick,    //Duke
+          onHandleCopy=_props6.onHandleCopy       //Duke
+
     } = this.props;
     const { forceEdit } = this.state;
     return (
@@ -678,7 +690,9 @@ export default class DataSheet extends PureComponent {
                     forceEdit={false}
                     onMouseDown={this.onMouseDown}
                     onMouseOver={this.onMouseOver}
-                    onDoubleClick={this.onDoubleClick}
+                  // onDoubleClick: _this5.onDoubleClick,
+                  onDoubleClick: onDoubleClick, //Duke
+                  onHandleCopy: onHandleCopy,   //Duke
                     onContextMenu={this.onContextMenu}
                     onChange={this.onChange}
                     onRevert={this.onRevert}
