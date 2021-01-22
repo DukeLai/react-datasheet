@@ -1,5 +1,5 @@
 {
-  "name": "react-datasheet",
+  "name": "@redredxiii/react-datasheet",
   "version": "1.4.8",
   "description": "Excel-like data grid for React",
   "repository": {
