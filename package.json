@@ -4,12 +4,12 @@
   "description": "Excel-like data grid for React",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nadbm/react-datasheet.git"
+    "url": "https://github.com/DukeLai/react-datasheet.git"
   },
   "author": "Nadim Islam",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nadbm/react-datasheet/issues"
+    "url": "https://github.com/DukeLai/react-datasheet/issues"
   },
   "keywords": [
     "react-component",
